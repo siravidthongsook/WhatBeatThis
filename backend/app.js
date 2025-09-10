@@ -3,7 +3,7 @@ dotenv.config({ path: [".env", ".env.local"] });
 
 import express from "express";
 import cors from "cors";
-import { closeDatabase, connectToDatabase } from "./db.js";
+import { closeDatabase, connectToDatabase } from "./db/index.js";
 
 const app = express();
 app.use(cors());
@@ -19,9 +19,11 @@ export const DEVMODE = process.env.DEVMODE === "true" ? true : false;
 
 // Routes
 import dbInfoRouter from './routes/dbInfo.js'
+import gameRouter from './routes/game.js'
 if (DEVMODE) {
     app.use("/db", dbInfoRouter)
 }
+app.use("/game", gameRouter)
 
 // Start server
 if (!PORT) {
