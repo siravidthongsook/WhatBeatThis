@@ -1,33 +1,31 @@
-import { MongoClient } from "mongodb";
-import dotenv from "dotenv";
-import { DEVMODE } from "../app.js";
-dotenv.config({ path: [".env", ".env.local"] });
+import 'dotenv/config'
+import mongoose from "mongoose";
 
-let client;
-let db;
-const MONGODB_URI = process.env.MONGODB_URI
-
+const MONGODB_URI = process.env.MONGODB_URI;
+console.log(MONGODB_URI)
 export async function connectToDatabase() {
-    if (db) return db;
-    if (!MONGODB_URI) {
-        throw new Error("MONGODB_URI is required in .env");
-    }
-    client = new MongoClient(MONGODB_URI, { maxPoolSize: 10 });
-    if (DEVMODE) console.log("MONGODB: connecting.......")
-    await client.connect();
-    if (DEVMODE) console.log("MONGODB: connected.")
-    db = client.db();
-    return db;
+    if (!MONGODB_URI) throw new Error("MONGODB_URI is required in .env");
+    if (mongoose.connection.readyState === 1) return mongoose.connection.db;
+
+    const devmode = process.env.DEVMODE === "true";
+    if (devmode) console.log("MONGOOSE: connecting...");
+    await mongoose.connect(MONGODB_URI, {
+        // Keep minimal options; Mongoose 8 uses modern driver defaults
+        maxPoolSize: 10,
+    });
+    if (devmode) console.log("MONGOOSE: connected.");
+    return mongoose.connection.db;
 }
 
 export function getDb() {
-    if (!db)
-        throw new Error(
-            "Database not initialized. Call connectToDatabase first.",
-        );
-    return db;
+    if (!mongoose.connection || mongoose.connection.readyState !== 1) {
+        throw new Error("Database not initialized. Call connectToDatabase first.");
+    }
+    return mongoose.connection.db;
 }
 
 export async function closeDatabase() {
-    if (client) await client.close();
+    if (mongoose.connection && mongoose.connection.readyState !== 0) {
+        await mongoose.connection.close();
+    }
 }
