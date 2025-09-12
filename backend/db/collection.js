@@ -8,6 +8,8 @@ const RoomSchema = new mongoose.Schema(
     currentSubject: { type: String, required: true },
     lastUpdate: { type: Date, default: Date.now },
     history: { type: Array, default: [] },
+    wordHistory: { type: Array, default: [] },
+    playerName: { type: String, required: true },
     ended: { type: Boolean, default: false },
     // add other room-specific fields here as needed
   },

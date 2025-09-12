@@ -8,12 +8,20 @@ const router = Router();
 router.post("/create", async (req, res) => {
     const body = req.body;
     let startSubject = body.startSubject;
+    let playerName = body.playerName;
+    if (typeof playerName !== "string") {
+        playerName = "guest"; // default name
+    }
+    if (playerName.length < 1 || playerName.length > 50) {
+        return res.status(400).json({ msg: "invalid playerName length 1-50 characters" });
+    }
+    
     if (typeof startSubject !== "string" || startSubject.length < 1 || startSubject.length > 50) {
         startSubject = "computer"; // default subject
     }
 
     try {
-        const room = await Room.create({currentSubject : startSubject});
+        const room = await Room.create({ currentSubject : startSubject, playerName: playerName });
         return res.json({ roomId: room._id });
     } catch (err) {
         if (DEVMODE) console.error("failed to create room", err);
