@@ -1,0 +1,473 @@
+:root {
+    --bg-color: #F0EBE3;
+    --text-dark: #3C3633;
+    --text-light: #7D7463;
+    --accent-color: #E0A75E;
+    --monitor-border: #59524C;
+    --monitor-screen-bg: #FFF8E7;
+    --text-green: #28a745;
+    --text-red: #dc3545;
+    --leaderboard-header-bg: #59524C;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.app-wrapper {
+    display: flex;
+    flex-direction: row;
+    transition: padding-left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#leaderboard-sidebar {
+    width: 320px;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* Changed to fixed for overlay effect */
+    top: 0;
+    left: 0;
+    z-index: 200;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: translateX(0);
+}
+
+.app-wrapper.leaderboard-closed #leaderboard-sidebar {
+    transform: translateX(-100%);
+}
+
+.app-wrapper.leaderboard-closed {
+    padding-left: 0;
+}
+
+.app-wrapper:not(.leaderboard-closed) {
+    padding-left: 320px; /* Push content over when sidebar is open */
+}
+
+
+#leaderboard-list {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.main-container {
+    flex-grow: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    padding: 20px;
+}
+
+/* Header */
+.game-title {
+    background-color: #E4DCCF;
+    padding: 15px 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.leaderboard-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem; /* Unified size */
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    color: var(--text-dark);
+    display: none; /* Hidden by default */
+}
+
+/* Show the open button ONLY on desktop-like screens (wide and tall) when the board is closed */
+@media (min-width: 769px) and (min-height: 600px) {
+    .app-wrapper.leaderboard-closed #leaderboard-open-btn {
+        display: block;
+    }
+}
+
+#leaderboard-close-btn {
+    display: block; /* Always show close button in sidebar header */
+    color: #fff; /* White icon for dark header */
+}
+
+
+.game-title h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    display: inline;
+}
+
+#beats-text {
+    color: var(--accent-color);
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+#beats-text.win { color: var(--text-green); }
+#beats-text.loss { color: var(--text-red); }
+
+
+/* Monitor */
+.monitor {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.monitor-screen {
+    width: 100%;
+    height: 450px;
+    background-color: var(--monitor-screen-bg);
+    border: 20px solid var(--monitor-border);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+.monitor-stand-base {
+    width: 60%;
+    height: 15px;
+    background-color: var(--monitor-border);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: relative;
+    top: -5px;
+    z-index: 1;
+}
+
+.monitor-stand-neck {
+    width: 20%;
+    height: 20px;
+    background-color: var(--monitor-border);
+    margin: 0 auto;
+    position: relative;
+    top: -15px;
+}
+
+/* Monitor Content */
+.initial-screen {
+    font-size: 6rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+	0% { transform: translateY(0px); }
+	50% { transform: translateY(-10px); }
+	100% { transform: translateY(0px); }
+}
+
+.result-screen .message {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+.result-screen .already-tried {
+    background-color: #ffecb3;
+    color: #6d4c41;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+.result-screen .emojis {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 5rem;
+}
+
+/* Input Area */
+.input-area {
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+}
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.input-connector {
+    width: 2px;
+    height: 30px;
+    background-color: #ccc;
+    margin: 0 auto;
+}
+#guess-form input {
+    width: 100%;
+    padding: 15px 60px 15px 20px; /* Add padding for button */
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+#send-guess-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+}
+
+#send-guess-btn:hover {
+    color: var(--text-dark);
+}
+
+/* Game Info */
+.game-info {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--text-light);
+}
+.already-guessed p { margin-bottom: 5px; }
+.score-display { font-weight: 700; font-size: 1.2rem; }
+
+/* Name Entry Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Must be higher than sidebar */
+}
+.modal-overlay.hidden { display: none; }
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+.modal-content h2 { margin-bottom: 10px; }
+.modal-content p { margin-bottom: 20px; }
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.modal-content button {
+    padding: 10px 25px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--accent-color);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.guest-button {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+/* Leaderboard General Styles */
+.leaderboard-header {
+    background-color: var(--leaderboard-header-bg);
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+.leaderboard-header h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+}
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+}
+.leaderboard-table { padding-bottom: 20px; } /* Remove horizontal padding */
+.leaderboard-table-header, .leaderboard-table-row {
+    display: grid;
+    grid-template-columns: 60px auto 80px;
+    gap: 16px;
+    padding: 10px 20px; /* Add horizontal padding here */
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+.leaderboard-table-header { 
+    font-weight: 700; 
+    padding-top: 15px; /* Adjust vertical padding */
+    padding-bottom: 15px;
+    position: sticky;
+    top: -1px; /* Move up slightly to hide top edge artifacts */
+    z-index: 10;
+    
+    /* Glassmorphism Effect */
+    background-color: rgba(255, 255, 255, 0.75); /* Slightly less transparent */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    /* Rounded corners */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.leaderboard-table-header span:last-child,
+.leaderboard-table-row span:last-child {
+    text-align: right;
+}
+
+/* Truncate long usernames */
+.leaderboard-table-row span:nth-child(2) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.leaderboard-table-row span:last-child { font-weight: 900; }
+
+.leaderboard-table-row.current-player {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-radius: 5px;
+    font-weight: 700;
+    margin: 4px -10px;
+    padding: 10px 20px;
+}
+
+/* --- Mobile Leaderboard Drawer --- */
+#mobile-leaderboard-drawer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    z-index: 50;
+    transform: translateY(calc(100% - 50px));
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#mobile-leaderboard-drawer.open {
+    transform: translateY(0);
+}
+
+#mobile-leaderboard-handle {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    cursor: pointer;
+}
+
+.player-rank-info {
+    display: flex;
+    gap: 15px;
+    font-weight: 600;
+}
+
+#drawer-toggle-icon {
+    font-size: 1.5rem;
+    transition: transform 0.4s ease;
+}
+
+#mobile-leaderboard-drawer.open #drawer-toggle-icon {
+    transform: rotate(180deg);
+}
+
+#mobile-leaderboard-content {
+    height: 45vh;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .app-wrapper,
+    .app-wrapper.leaderboard-closed {
+        flex-direction: column;
+        padding-left: 0; /* Reset padding for mobile */
+    }
+    #leaderboard-sidebar {
+        display: none !important; /* Hide sidebar on mobile */
+    }
+    #leaderboard-open-btn {
+        display: none !important; /* Hide desktop toggle on mobile */
+    }
+    .main-container {
+        padding: 1rem;
+        padding-bottom: 50px; /* Space for drawer handle */
+        gap: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .game-title {
+        order: -1;
+        padding: 10px 15px;
+        width: 100%;
+        justify-content: center;
+    }
+    .game-title h1 { font-size: 1.8rem; }
+    .monitor-screen { 
+        height: 220px;
+        border-width: 12px;
+    }
+    .result-screen .emojis { font-size: 3rem; }
+    
+    #mobile-leaderboard-drawer {
+        display: block; /* Show the drawer on mobile */
+    }
+}

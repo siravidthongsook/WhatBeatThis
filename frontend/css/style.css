@@ -1,26 +1,151 @@
-/* monitor frame */
-#game-display {
-    border: 8px solid #888;
-    border-radius: 6px;
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+:root {
+    --bg-color: #F0EBE3;
+    --text-dark: #3C3633;
+    --text-light: #7D7463;
+    --accent-color: #E0A75E;
+    --monitor-border: #59524C;
+    --monitor-screen-bg: #fffefb;
+    --text-green: #28a745;
+    --text-red: #dc3545;
+    --leaderboard-header-bg: #2c3e50;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+}
+
+#game-form {
+    border: 2px solid var(--text-dark);
+    background-color: var(--monitor-screen-bg);
+}
+
+#game-form > * {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border: 0;
+    background: none;
+}
+
+#game-form > label {
+    /* border-bottom: 2px solid var(--text-dark); */
+    user-select: none;
+}
+
+#game-input:focus {
+    outline: none;
+}
+
+#game-input::selection {
+    color: var(--text-dark);
+    background: var(--accent-color);
+}
+
+#game-form > button {
+    cursor: pointer;
+    height: 0;
+    font-size: 1.5rem;
+}
+
+/* monitor frame */
 .monitor {
     margin: 0;
     padding: 0;
 }
 
+#monitor-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--monitor-screen-bg);
+    border: 8px solid var(--monitor-border);
+    border-radius: 6px;
+}
+
 #monitor-stand {
     width: 30px;
-    height: 20px;
-    background-color: #888;
+    height: 30px;
+    background-color: var(--monitor-border);
     margin: 0 auto;
 }
 
 #monitor-base {
-    width: 120px;
-    height: 12px;
-    background-color: #888;
+    min-width: 120px;
+    min-height: 12px;
+    width: max-content;
+    padding: 2px 4px;
+    background-color: var(--monitor-border);
     margin: 0 auto;
     border-radius: 4px;
     margin-bottom: 1rem;
+    color: var(--monitor-screen-bg);
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+#monitor-base label {
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.9rem;
+}
+
+.rainbow-text {
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red);
+    background-size: 400% 400%;
+    background-position: 0% 50%;
+    animation: rainbow 5s linear infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* For Safari */
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes rainbow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#leaderboard-container {
+    background-color: var(--monitor-screen-bg);
+    border: 2px solid var(--text-dark);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#leaderboard-header {
+    background-color: white;
+    border-bottom: 2px solid var(--text-dark);
+}
+
+#leaderboard-close {
+    opacity: 0.5;
+    transition: opacity 0.1s;
+}
+
+#leaderboard-close:hover {
+    opacity: 1.0;
+}
+    
+#leaderboard-toggle-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    padding: 0.1rem 0.25rem;
+}
+
+#leaderboard-toggle-label :nth-child(2) {
+    transition: color 0.2s;
+}
+
+#leaderboard-toggle-label:hover :nth-child(2) {
+    color: var(--accent-color);
 }

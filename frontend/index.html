@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
     <script defer src="scripts/api.js"></script>
     <script defer src="scripts/game.js"></script>
@@ -13,6 +15,7 @@
 
     <title>What beats computer?</title>
 </head>
+
 <body>
 
     <!-- Main Part (Game) -->
@@ -23,38 +26,53 @@
                 <!-- Initial/Guess -->
                 What beats computer?
                 <!-- Beats -->
-                    <!-- Water beats Computer -->
+                <!-- Water beats Computer -->
                 <!-- Beaten -->
-                    <!-- Croissant does not beat Computer -->
+                <!-- Croissant does not beat Computer -->
             </h1>
         </header>
 
         <!-- Game -->
         <section id="game-container">
-            <div id="game-display">
+            <div id="monitor-container">
+                <div class="monitor" id="monitor-display">
                     <!-- Display -->
-                        <!-- Initial/Guess -->
-                        💻
-                        <!-- Beats -->
-                            <!-- 💧 🤜 💻
+                    <!-- Initial/Guess -->
+                    💻
+                    <!-- Beats -->
+                    <!-- 💧 🤜 💻
                             <span>Reason: blahblahblah</span> -->
-                        <!-- Beaten -->
-                            <!-- 🥐 😵 💻
+                    <!-- Beaten -->
+                    <!-- 🥐 😵 💻
                             <span>Reason: blahblahblah</span> -->
-            </div>
-            <div class="monitor" id="monitor-stand">
-            </div>
-            <div class="monitor" id="monitor-base"></div>                
+                </div>
+                <div class="monitor" id="monitor-stand">
+                </div>
+                <div class="monitor" id="monitor-base">
+                    <label for="leaderboard-toggle">
 
-            <!-- <button>Leaderboard</button> -->
-            <label for="leaderboard-toggle">
-                Leaderboard
-                <input type="checkbox" name="" checked id="leaderboard-toggle">
-            </label>
+                        <div id="leaderboard-toggle-label">
+                            <span>Leaderboard</span>
+                            <span id="power-icon" class="material-symbols-outlined">
+                                power_settings_new
+                            </span>
+                        </div>
+
+                        <div style="display:none;">
+                            <input type="checkbox" name="" checked id="leaderboard-toggle">
+                        </div>
+                    </label>
+                </div>
+            </div>
 
             <form id="game-form" action="">
+                <label for="game-input">~$ guess </label>
                 <input id="game-input" type="text" placeholder="Water">
-                <button type="submit">Guess</button>
+                <button type="submit">
+                    <span class="material-symbols-outlined">
+                        send
+                    </span>
+                </button>
             </form>
 
         </section>
@@ -64,22 +82,20 @@
             Group 27
         </footer> -->
     </main>
-    
+
     <!-- Leaderboard -->
     <aside id="leaderboard-container">
         <header id="leaderboard-header">
-            <h2>
+            <h2 class="rainbow-text">
                 Leaderboard
             </h2>
-            <div>
-                <button id="leaderboard-close">X</button>
-            </div>
+            <button id="leaderboard-close">x</button>
         </header>
         <table id="leaderboard-table">
             <thead>
                 <tr>
                     <th>Rank</th>
-                    <th colspan="5">User</th>
+                    <th>User</th>
                     <th>Score</th>
                 </tr>
             </thead>
@@ -108,4 +124,5 @@
         </table>
     </aside>
 </body>
+
 </html>

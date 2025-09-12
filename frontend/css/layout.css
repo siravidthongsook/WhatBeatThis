@@ -13,11 +13,24 @@ body {
 
 #main-container {
     padding-top: 3rem;
-    width: 50%;
+    width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
+
+@media (min-width: 600px) {
+    #main-container {
+        width: 70%;
+    }
+}
+
+@media (min-width: 1200px) {
+    #main-container {
+        width: 50%;
+    }
+}
+
 
 #game-header {
     text-align: center;
@@ -30,13 +43,19 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 0.5rem;
 }
 
-#game-display {
+#monitor-container {
     text-align: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+#monitor-display {
     font-size: 5rem;
-    width: 500px;
-    min-height: 250px;
+    aspect-ratio: 19 / 9;
+    width: 100%;
 }
 
 #game-form {
@@ -46,10 +65,88 @@ body {
 }
 
 #game-form > * {
-    font-size: 1.5rem;
+    font-size: 1rem;
     padding: 0.5rem;
+    min-width: 0;
+}
+
+@media (min-width: 600px) {
+    #game-form > * {
+        font-size: 1.5rem;
+    }
 }
 
 #game-input {
     flex-grow: 1;
+}
+
+#leaderboard-container {
+    z-index: 10;
+    width: 90%;
+    height: 70%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 600px) {
+    #leaderboard-container {
+        width: 70%;
+        height: 70%;
+    }
+}
+
+@media (min-width: 1200px) {
+    #leaderboard-container {
+        width: 60%;
+        height: 70%;
+    }
+}
+
+#leaderboard-header {
+    text-align: center;
+    font-size: 2rem;
+    padding: 1rem;
+}
+
+#leaderboard-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+#leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#leaderboard-table thead {
+    font-size: 1.25rem;
+    border-bottom: 2px solid black;
+}
+
+#leaderboard-table tbody tr:first-child {
+    font-size: 2rem;
+}
+
+#leaderboard-table tbody tr:nth-child(2) {
+    font-size: 1.75rem;
+}
+
+#leaderboard-table tbody tr:nth-child(3) {
+    font-size: 1.5rem;
+}
+
+#leaderboard-table th, #leaderboard-table td {
+    border-bottom: 1px solid black;
+    padding: 0.5rem;
+    text-align: center;
 }
