@@ -1,0 +1,26 @@
+/* monitor frame */
+#game-display {
+    border: 8px solid #888;
+    border-radius: 6px;
+}
+
+.monitor {
+    margin: 0;
+    padding: 0;
+}
+
+#monitor-stand {
+    width: 30px;
+    height: 20px;
+    background-color: #888;
+    margin: 0 auto;
+}
+
+#monitor-base {
+    width: 120px;
+    height: 12px;
+    background-color: #888;
+    margin: 0 auto;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}

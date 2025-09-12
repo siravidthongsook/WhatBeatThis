@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script defer src="scripts/api.js"></script>
+    <script defer src="scripts/game.js"></script>
+    <script defer src="scripts/leaderboard.js"></script>
+
+    <title>What beats computer?</title>
+</head>
+<body>
+
+    <!-- Main Part (Game) -->
+    <main id="main-container">
+        <!-- Header -->
+        <header>
+            <h1 id="game-header">
+                <!-- Initial/Guess -->
+                What beats computer?
+                <!-- Beats -->
+                    <!-- Water beats Computer -->
+                <!-- Beaten -->
+                    <!-- Croissant does not beat Computer -->
+            </h1>
+        </header>
+
+        <!-- Game -->
+        <section id="game-container">
+            <div id="game-display">
+                    <!-- Display -->
+                        <!-- Initial/Guess -->
+                        💻
+                        <!-- Beats -->
+                            <!-- 💧 🤜 💻
+                            <span>Reason: blahblahblah</span> -->
+                        <!-- Beaten -->
+                            <!-- 🥐 😵 💻
+                            <span>Reason: blahblahblah</span> -->
+            </div>
+            <div class="monitor" id="monitor-stand">
+            </div>
+            <div class="monitor" id="monitor-base"></div>                
+
+            <!-- <button>Leaderboard</button> -->
+            <label for="leaderboard-toggle">
+                Leaderboard
+                <input type="checkbox" name="" checked id="leaderboard-toggle">
+            </label>
+
+            <form id="game-form" action="">
+                <input id="game-input" type="text" placeholder="Water">
+                <button type="submit">Guess</button>
+            </form>
+
+        </section>
+
+        <!-- Footer -->
+        <!-- <footer>
+            Group 27
+        </footer> -->
+    </main>
+    
+    <!-- Leaderboard -->
+    <aside id="leaderboard-container">
+        <header id="leaderboard-header">
+            <h2>
+                Leaderboard
+            </h2>
+            <div>
+                <button id="leaderboard-close">X</button>
+            </div>
+        </header>
+        <table id="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th colspan="5">User</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>John Lemma</td>
+                    <td>9999999</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Jane Lemma</td>
+                    <td>999998</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>John Pork</td>
+                    <td>12312</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Gay Lemma</td>
+                    <td>123</td>
+                </tr>
+            </tbody>
+        </table>
+    </aside>
+</body>
+</html>
