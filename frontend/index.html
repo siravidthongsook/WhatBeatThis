@@ -17,7 +17,15 @@
 </head>
 
 <body>
-
+    <!-- Ask for playerName && start logic -->
+    <div id="start-container">
+        <form id="start-form" action="">
+            <label for="player-name-input">Enter your name:</label>
+            <input id="player-name-input" type="text" placeholder="Guest">
+            <button type="submit" id="start-button">Start Game</button>
+        </form>
+    </div>
+    
     <!-- Main Part (Game) -->
     <main id="main-container">
         <!-- Header -->
@@ -38,7 +46,7 @@
                 <div class="monitor" id="monitor-display">
                     <!-- Display -->
                     <!-- Initial/Guess -->
-                    💻
+                    <span class="emoji">💻</span>
                     <!-- Beats -->
                     <!-- 💧 🤜 💻
                             <span>Reason: blahblahblah</span> -->
@@ -68,7 +76,7 @@
             <form id="game-form" action="">
                 <label for="game-input">~$ guess </label>
                 <input id="game-input" type="text" placeholder="Water">
-                <button type="submit" id="submit-button">
+                <button type="submit" id="game-submit-button">
                     <span class="material-symbols-outlined">
                         send
                     </span>
