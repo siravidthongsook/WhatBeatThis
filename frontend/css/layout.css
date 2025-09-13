@@ -12,9 +12,9 @@ body {
 }
 
 #main-container {
-    padding-top: 3rem;
+    padding: 7rem 2rem;
     width: 100%;
-    min-height: 100vh;
+    min-height: 85vh;
     display: flex;
     flex-direction: column;
 }
@@ -53,9 +53,16 @@ body {
 }
 
 #monitor-display {
-    font-size: 5rem;
-    aspect-ratio: 19 / 9;
+    font-size: 4rem;
+    aspect-ratio: 16 / 9;
     width: 100%;
+}
+
+@media (min-width: 600px) {
+    #monitor-display {
+        font-size: 5rem;
+        aspect-ratio: 18 / 9;
+    }
 }
 
 #game-form {
@@ -67,17 +74,28 @@ body {
 #game-form > * {
     font-size: 1rem;
     padding: 0.5rem;
-    min-width: 0;
 }
 
 @media (min-width: 600px) {
     #game-form > * {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
 }
 
+#game-form > label {
+    min-width: 6rem;
+}
+
+@media (min-width: 600px) {
+    #game-form > label {
+        min-width: 7rem;
+    }
+}
+
+
 #game-input {
     flex-grow: 1;
+    width: 100%;
 }
 
 #leaderboard-container {
@@ -90,6 +108,9 @@ body {
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
+    overflow: scroll;
+    padding: 0 1rem;
+    padding-bottom: 1rem;
 }
 
 @media (min-width: 600px) {
@@ -108,8 +129,19 @@ body {
 
 #leaderboard-header {
     text-align: center;
-    font-size: 2rem;
-    padding: 1rem;
+    font-size: 1.3rem;
+    padding: 1.2rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: sticky
+}
+
+@media (min-width: 600px) {
+    #leaderboard-header {
+        font-size: 2rem;
+        padding: 1rem;
+    }
 }
 
 #leaderboard-close {
@@ -129,24 +161,61 @@ body {
 }
 
 #leaderboard-table thead {
-    font-size: 1.25rem;
+    font-size: 1rem;
     border-bottom: 2px solid black;
 }
 
 #leaderboard-table tbody tr:first-child {
-    font-size: 2rem;
+    font-size: 1.45rem;
 }
 
 #leaderboard-table tbody tr:nth-child(2) {
-    font-size: 1.75rem;
+    font-size: 1.3rem;
 }
 
 #leaderboard-table tbody tr:nth-child(3) {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
 }
 
-#leaderboard-table th, #leaderboard-table td {
+@media (min-width: 600px) {
+    #leaderboard-table thead {
+        font-size: 1.25rem;
+        border-bottom: 2px solid black;
+    }
+    
+    #leaderboard-table tbody tr:first-child {
+        font-size: 2rem;
+    }
+
+    #leaderboard-table tbody tr:nth-child(2) {
+        font-size: 1.75rem;
+    }
+
+    #leaderboard-table tbody tr:nth-child(3) {
+        font-size: 1.5rem;
+    }
+}
+
+#leaderboard-table th {
     border-bottom: 1px solid black;
-    padding: 0.5rem;
+    padding: 0.7rem;
     text-align: center;
+}
+
+#leaderboard-table td {
+    border-bottom: 1px solid black;
+    padding: 0.8rem 0;
+    text-align: center;
+}
+
+#leaderboard-table > tbody > tr:nth-child(1) > td {
+    padding: 1.25rem 0;
+}
+
+#leaderboard-table > tbody > tr:nth-child(2) > td {
+    padding: 1.2rem 0;
+}
+
+#leaderboard-table > tbody > tr:nth-child(3) > td {
+    padding: 1rem 0;
 }

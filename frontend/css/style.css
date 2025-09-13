@@ -22,6 +22,8 @@ body {
 #game-form {
     border: 2px solid var(--text-dark);
     background-color: var(--monitor-screen-bg);
+    display: flex;
+    align-items: center;
 }
 
 #game-form > * {
@@ -47,8 +49,10 @@ body {
 
 #game-form > button {
     cursor: pointer;
-    height: 0;
     font-size: 1.5rem;
+    display: flex;
+    place-items: center;
+    height: 100%;
 }
 
 /* monitor frame */
@@ -117,6 +121,8 @@ body {
     border: 2px solid var(--text-dark);
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all ease-in-out 0.2s;
+    visibility: hidden;
 }
 
 #leaderboard-header {
@@ -138,8 +144,15 @@ body {
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: 0.9rem;
-    padding: 0.1rem 0.25rem;
+    font-size: 1rem;
+    padding: 0.28rem 0.5rem;
+}
+
+@media (min-width: 600px) {
+    #leaderboard-toggle-label {
+        font-size: 0.95rem;
+        padding: 0.28rem 0.35rem
+    }
 }
 
 #leaderboard-toggle-label :nth-child(2) {

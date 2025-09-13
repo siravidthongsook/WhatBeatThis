@@ -16,23 +16,23 @@ const leaderboardClose = document.getElementById("leaderboard-close");
 // Modal interaction
 
 function showLeaderboardModal() {
-    leaderboardContainer.style.opacity = "0";
-    leaderboardContainer.style.display = "block";
-    leaderboardContainer.style.transition = "opacity 0.2s ease-in-out";
-    setTimeout(() => {
-        leaderboardContainer.style.opacity = "1";
-        mainContainer.style.filter = "blur(4px)";
-        mainContainer.style.opacity = "0.7";
-        mainContainer.style.transition = "opacity 0.4s ease-in-out";
-    }, 10);
+    leaderboardContainer.style.opacity = "1";
+    leaderboardContainer.style.visibility = "visible";
+    mainContainer.style.filter = "blur(4px)";
+    mainContainer.style.opacity = "0.7";
     leaderboardToggle.checked = true;
 }
 
+// set Default leaderboard style
+leaderboardContainer.style.opacity = "0";
+leaderboardContainer.style.visibility = "hidden";
+
+// set Default main container style
+mainContainer.style.opacity = "1";
+
 function hideLeaderboardModal() {
     leaderboardContainer.style.opacity = "0";
-    setTimeout(() => {
-        leaderboardContainer.style.display = "none";
-    }, 205);
+    leaderboardContainer.style.visibility = "hidden";
     mainContainer.style.filter = "none";
     mainContainer.style.opacity = "1";
     leaderboardToggle.checked = false;
