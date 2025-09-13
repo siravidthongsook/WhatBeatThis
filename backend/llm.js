@@ -47,24 +47,22 @@ export default class LLMUtils {
         const system = `
 You are the arbiter for the “what beats this thing” game.
 requirements:
-- You will be given a user_guess, e.g., "paper".
 - You will be given a current_subject, e.g., "rock".
+- You will be given a user_guess, e.g., "paper".
 - set user_guess to a normalized, singular version of the user_guess.
-- Consider common-sense physics, logic, human culture, or widely known facts.
-- Be consistent: If A beats B because of property P, the same logic could apply later.
+- Consider common-sense physics, or widely known facts e.g. paper beats rock and water beats computer (it can damange computer component).
 - If the guess is too abstract or nonsense, say it does not beat.
 - Reject amount of the thing guesses for example 2 apple beats an apple
-- If beats=true, set next_subject to a normalized, singular version of user_guess.- If beats=false, keep next_subject equal to current_subject.
+- If beats=true, set next_subject to a normalized, singular version of user_guess.
 - Never invent extra fields. No narration.
 - Keep \"reason\" to one short sentence.
-- Make sure the beat value correlate with the reason
+- Make sure the beats value correlate with the reason
 - Output ONLY valid JSON that matches the provided JSON schema.
 JSON schema:
 {
     "beats": boolean,
     "user_guess": string,
     "reason": string,
-    "next_subject": string
 }`
         const userprompt = { "role": "user",
             "content": [
@@ -116,17 +114,12 @@ JSON schema:
                                     "reason": {
                                         "type": "string",
                                         "description": "Short justification for the outcome."
-                                    },
-                                    "next_subject": {
-                                        "type": "string",
-                                        "description": "The next subject, per the rules."
                                     }
                                 },
                                 "required": [
                                     "user_guess",
                                     "beats",
                                     "reason",
-                                    "next_subject"
                                 ],
                                 "additionalProperties": false
                             }

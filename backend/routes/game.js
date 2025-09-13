@@ -106,7 +106,7 @@ router.post("/guess", async (req, res) => {
     
     // add to room history
     // update room currentSubject
-    room.currentSubject = result.next_subject;
+    room.currentSubject = result.user_guess;
     room.lastUpdate = new Date();
     const historyEntry = LLMUtils.getHistoryEntry(currentSubject, result.user_guess, result);
     
