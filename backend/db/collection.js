@@ -20,14 +20,10 @@ const RoomSchema = new mongoose.Schema(
 const GuessedWordSchema = new mongoose.Schema(
   {
     word: { type: String, required: true },
-    beatedBy: { type: Array, required: true },
-    // beatedby schema
-    // [
-    //   {
-    //     "word": String,
-    //     "guessedBy": String -> playerName
-    //   },
-    // ]
+    // the playerName of the first user who guessed this word
+    firstguessedBy: { type: String, required: false },
+    // total number of times this word has been guessed (incremented each time)
+    guessedCount: { type: Number, default: 0 },
   },
   { collection: "guessedWord", timestamps: false }
 );

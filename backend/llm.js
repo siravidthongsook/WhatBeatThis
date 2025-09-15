@@ -50,19 +50,30 @@ requirements:
 - You will be given a current_subject, e.g., "rock".
 - You will be given a user_guess, e.g., "paper".
 - set user_guess to a normalized, singular version of the user_guess.
-- Consider common-sense physics, or widely known facts e.g. paper beats rock and water beats computer (it can damange computer component).
-- If the guess is too abstract or nonsense, say it does not beat.
-- Reject amount of the thing guesses for example 2 apple beats an apple
-- If beats=true, set next_subject to a normalized, singular version of user_guess.
+- beats means user_guess beats current_subject.
+- Consider common-sense, physical, or widely known facts e.g. paper beats rock, water beats computer, fire beats paper, hammer can break computer.
+- if user_guess considers beats current_subject, set beats to true.
+
+- If the guess is nonsense, say it does not beat.
+
+- Reject quantity-based guesses, e.g., "a lot of X", "many X", "two X".
+- Keep \"reason\" to one short sentence why user_guess beats current_subject.
+- Make sure the beats value correlate with the reason you provide if user_guess beats current_subject provide why and if not provide why not.
+- Do not allow current_subject and user_guess to be the same thing.
+- Do not provide contradictory or ambiguous answers beats value and reason should go together.
+- Always respond with a valid JSON matching the schema below.
+- Pick an emoji that best represents the main noun of the phrase.
+- If no suitable emoji exists, use a relevant generic emoji like ❓
+- If you think this is a repeat guess, set is_repeat_guess to true, otherwise false and set reason to "{user_guess} is a repeat guess".
 - Never invent extra fields. No narration.
-- Keep \"reason\" to one short sentence.
-- Make sure the beats value correlate with the reason
 - Output ONLY valid JSON that matches the provided JSON schema.
 JSON schema:
 {
     "beats": boolean,
     "user_guess": string,
     "reason": string,
+    "user_guess_emoji": emoji_character,
+    "is_repeat_guess": boolean
 }`
         const userprompt = { "role": "user",
             "content": [
@@ -114,12 +125,22 @@ JSON schema:
                                     "reason": {
                                         "type": "string",
                                         "description": "Short justification for the outcome."
+                                    },
+                                    "user_guess_emoji": {
+                                        "type": "string",
+                                        "description": "An emoji that represents the user_guess, e.g., 🪨 for rock, 📄 for paper, ✂️ for scissors."
+                                    },
+                                    "is_repeat_guess": {
+                                        "type": "boolean",
+                                        "description": "Whether the user_guess has already been used in this game."
                                     }
                                 },
                                 "required": [
                                     "user_guess",
                                     "beats",
                                     "reason",
+                                    "user_guess_emoji",
+                                    "is_repeat_guess"
                                 ],
                                 "additionalProperties": false
                             }

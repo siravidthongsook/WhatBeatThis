@@ -53,8 +53,9 @@ body {
 }
 
 #monitor-display {
+    padding: 3rem 1rem;
     font-size: 1.7rem;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 12 / 9;
     width: 100%;
 }
 
@@ -269,4 +270,11 @@ body {
 @keyframes modal-scale-down {
     0% { transform: scale(1); opacity: 1; }
     100% { transform: scale(0.7); opacity: 0; }
+}
+
+/* Leaderboard empty state */
+.leaderboard-no-data {
+  padding: 1.25rem 1rem;
+  margin: 1rem auto;
+  width: calc(100% - 2rem);
 }

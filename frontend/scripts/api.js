@@ -27,3 +27,24 @@ async function createRoomApi() {
         })
     })
 }
+
+async function deleteRoomApi() {
+    const roomId = sessionStorage.getItem('roomId');
+    if (!roomId) {
+        console.warn("No roomId found in sessionStorage");
+        return;
+    }
+
+    return await fetch(`${BACKEND_URL}/game/delete/${roomId}`, {
+        method: 'DELETE',
+    });
+}
+
+async function fetchLeaderboardApi(limit = 100) {
+    return await fetch(`${BACKEND_URL}/leaderboard?limit=${limit}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}

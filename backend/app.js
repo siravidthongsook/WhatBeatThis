@@ -20,10 +20,12 @@ export const DEVMODE = process.env.DEVMODE === "true" ? true : false;
 // Routes
 import dbInfoRouter from './routes/dbInfo.js'
 import gameRouter from './routes/game.js'
+import leaderboardRouter from './routes/leaderboard.js'
 if (DEVMODE) {
     app.use("/db", dbInfoRouter)
 }
 app.use("/game", gameRouter)
+app.use("/leaderboard", leaderboardRouter)
 
 // Start server
 if (!PORT) {
