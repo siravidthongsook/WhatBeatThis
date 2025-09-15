@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const currentSubject = sessionStorage.getItem('currentSubject') || "UNKNOWN [BUG]";
         monitorDisplay.innerHTML = `<span class="">${currentSubject}</span>`;
+        gameInput.focus();
     }
 
     // helper: create room and show creating animation
