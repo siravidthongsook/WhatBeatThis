@@ -137,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error('Failed to get answer');
             // data Schema: { user_guess: string, beats: boolean, reason: string }
             const data = await response.json();
-            console.log('Received answer data:', data);
 
             // store to variable before updating
             const currentSubject = sessionStorage.getItem('currentSubject') || "UNKNOWN [BUG]";
@@ -379,7 +378,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const roomId = data.roomId;
             console.log('Creating room successfully, Room ID:', roomId);
             sessionStorage.setItem('roomId', roomId);
-            monitorDisplay.innerHTML = newContent
+            const emoji = sessionStorage.getItem('emoji') || "💻";
+            monitorDisplay.innerHTML = `<span class="emoji">${emoji}</span>`;
         }
         catch (error) {
             console.error('Error creating room:', error);

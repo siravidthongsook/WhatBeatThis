@@ -16,6 +16,7 @@ app.get("/health", (_req, res) =>
 // Configuration
 const PORT = process.env.PORT;
 export const DEVMODE = process.env.DEVMODE === "true" ? true : false;
+const BACKEND_PREFIX = process.env.BACKEND_PREFIX ?? "/api";
 
 // Routes
 import dbInfoRouter from './routes/dbInfo.js'
@@ -24,8 +25,8 @@ import leaderboardRouter from './routes/leaderboard.js'
 if (DEVMODE) {
     app.use("/db", dbInfoRouter)
 }
-app.use("/game", gameRouter)
-app.use("/leaderboard", leaderboardRouter)
+app.use(`${BACKEND_PREFIX}/game`, gameRouter)
+app.use(`${BACKEND_PREFIX}/leaderboard`, leaderboardRouter)
 
 // Start server
 if (!PORT) {

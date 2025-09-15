@@ -1,8 +1,9 @@
-const BACKEND_URL = 'http://localhost:3000';
+const BACKEND_URL = (window.APP_CONFIG && window.APP_CONFIG.backendUrl)
+const BACKEND_PREFIX = (window.APP_CONFIG && window.APP_CONFIG.backendPrefix) || '/api';
 
 async function getAnswerApi(guess) {
     const roomId = sessionStorage.getItem('roomId');
-    return await fetch(`${BACKEND_URL}/game/guess`, {
+    return await fetch(`${BACKEND_URL}${BACKEND_PREFIX}/game/guess`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -16,7 +17,7 @@ async function getAnswerApi(guess) {
 
 async function createRoomApi() {
     const playerName = sessionStorage.getItem('playerName') || 'Guest';
-    return await fetch(`${BACKEND_URL}/game/create`, {
+    return await fetch(`${BACKEND_URL}${BACKEND_PREFIX}/game/create`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -35,13 +36,13 @@ async function deleteRoomApi() {
         return;
     }
 
-    return await fetch(`${BACKEND_URL}/game/delete/${roomId}`, {
+    return await fetch(`${BACKEND_URL}${BACKEND_PREFIX}/game/delete/${roomId}`, {
         method: 'DELETE',
     });
 }
 
 async function fetchLeaderboardApi(limit = 100) {
-    return await fetch(`${BACKEND_URL}/leaderboard?limit=${limit}`, {
+    return await fetch(`${BACKEND_URL}${BACKEND_PREFIX}/leaderboard?limit=${limit}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
