@@ -2,7 +2,6 @@ import 'dotenv/config'
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
-console.log(MONGODB_URI)
 export async function connectToDatabase() {
     if (!MONGODB_URI) throw new Error("MONGODB_URI is required in .env");
     if (mongoose.connection.readyState === 1) return mongoose.connection.db;
