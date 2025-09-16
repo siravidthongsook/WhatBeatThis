@@ -20,24 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const endGamePlayAgainButtonContent = `
     <div style="margin-top: 16px; display: flex; justify-content: center;">
-        <button id="play-again-btn" style="
-            padding: 10px 24px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            border: none;
-            background: #eaeaea;
-            color: #222;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: background 0.2s, color 0.2s;
-        ">
+        <button id="play-again-btn">
             Play again 🔄 
         </button>
     </div>`
 
     function getScoreTag() {
         const score = sessionStorage.getItem('score') || '0';
-        return `<div class="score-display">Score: ${score}</div>`;
+        return `<span class="score-display">Score: ${score}</span>`;
     }
 
     // Close the start modal
@@ -113,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!monitorDisplay) return;
         // remove input placeholder
         gameInput.placeholder = '';
+        disableGameInput();
 
         monitorDisplay.innerHTML = '<div class="monitor-answer answer-loading">Retrieving Your Answer</br>Please wait....</div>';
 
@@ -159,7 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 metaNode.className = 'guess-meta';
                 metaNode.style.marginTop = '8px';
                 metaNode.style.fontSize = '0.87rem';
-                metaNode.style.color = '#00001e';
+                metaNode.style.fontWeight = 'bold';
+                metaNode.style.textAlign = 'center';
                 metaNode.innerText = data.guess_message;
                 answerReasonContainer.appendChild(metaNode);
             }
@@ -200,15 +192,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             else if (data.is_repeat_guess) {
                 repeatWordCase();
-            }
-            else {
+            } else {
                 answerReasonContainer.classList.add('wrong-answer');
                 monitorDisplay.innerHTML = `
-                    ${getScoreTag()}
+                    ${/*getScoreTag()*/ ''}
                     <div class="monitor-answer answer-static">
                         <span class="dynamic-text">${userGuess}</span> does not beat <span class="dynamic-text">${currentSubject} ❌</span><br>
-                        The game is over
-                        <div style="margin-top: 10px; font-size: 1.2rem;">Final Score: ${sessionStorage.getItem('score') || '0'}</div>
+                        <div style="
+                            margin-top: 10px;
+                            font-size: 1.2rem;
+                            background-color: var(--bg-color);
+                            padding: 0.3rem 1.5rem;
+                            border: 2px solid var(--text-dark);
+                            border-radius: 4px;
+                            color: var(--text-dark);
+                            font-weight: bold;
+                        ">Final Score: ${sessionStorage.getItem('score') || '0'}</div>
                         ${endGamePlayAgainButtonContent}
                     </div>
                 `;
@@ -260,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
             monitorDisplay.innerHTML = `<div class="monitor-answer">Error retrieving answer. </br>Please try again. </br>what beats ${currentSubject}${emoji}?</div>`;
             return;
         }
-        disableGameInput();
     }
 
     function hideAnswerReason() {
