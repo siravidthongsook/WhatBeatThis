@@ -146,7 +146,7 @@ router.post("/guess", async (req, res) => {
     // }
 
     if (room.wordHistory.includes(result.user_guess)) {
-        res.status(400).json({ error: {name: "Word already used in this game", code: "WORD_ALREADY_USED"}});
+        res.status(400).json({ error: {name: "Word already used in this game", code: "WORD_ALREADY_USED"}, user_guess: result.user_guess });
         return;
     }
     // add to room history

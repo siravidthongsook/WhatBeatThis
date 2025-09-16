@@ -427,3 +427,15 @@ body {
 .monitor-answer .dynamic-text {
         transition: font-size 140ms ease-in-out;
 }
+
+/* Warning text at bottom center */
+#warning-text {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-align: center;
+    z-index: 1000;
+}

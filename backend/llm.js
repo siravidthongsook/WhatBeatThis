@@ -1,8 +1,15 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
 const LLM_MODELNAME = process.env.LLM_MODELNAME ?? "gpt-4o-mini";
 const LLM_API_ENDPOINT = process.env.LLM_API_ENDPOINT ?? "https://api.openai.com/v1/responses";
-const LLM_API_TOKEN = process.env.LLM_API_TOKEN
+const LLM_API_TOKEN = process.env.LLM_API_TOKEN;
+
+if (!process.env.LLM_MODELNAME) {
+    console.warn("WARNING: LLM_MODELNAME not found inside .env, using default gpt-4o-mini");
+}
+else {
+    console.log("Using LLM_MODELNAME:", LLM_MODELNAME);
+}
 
 if (!LLM_MODELNAME) {
     throw new Error("LLM_MODELNAME not found or incorrect. Please provide a correct LLM_MODELNAME inside .env")
@@ -45,36 +52,61 @@ export default class LLMUtils {
 
 
         const system = `
-You are the arbiter for the “what beats this thing” game.
-requirements:
-- You will be given a current_subject, e.g., "rock".
-- You will be given a user_guess, e.g., "paper".
-- set user_guess to a normalized, singular version of the user_guess.
-- beats means user_guess beats current_subject.
-- Consider common-sense, physical, or widely known facts e.g. paper beats rock, water beats computer, fire beats paper, hammer can break computer.
-- if user_guess considers beats current_subject, set beats to true.
+You are the arbiter for the "What Beats/Win This Thing" game.  
+Follow these rules strictly:
 
-- If the guess is nonsense, say it does not beat.
+INPUTS:
+- current_subject: e.g. "rock"
+- user_guess: e.g. "paper", "water", "นำ้"
 
-- Reject quantity-based guesses, e.g., "a lot of X", "many X", "two X".
-- Keep \"reason\" to one short sentence why user_guess beats current_subject.
-- Make sure the beats value correlate with the reason you provide if user_guess beats current_subject provide why and if not provide why not.
-- Do not allow current_subject and user_guess to be the same thing.
-- Do not provide contradictory or ambiguous answers beats value and reason should go together.
-- Always respond with a valid JSON matching the schema below.
-- Pick an emoji that best represents the main noun of the phrase.
-- If no suitable emoji exists, use a relevant generic emoji like ❓
-- If you think this is a repeat guess, set is_repeat_guess to true, otherwise false and set reason to "{user_guess} is a repeat guess".
-- Never invent extra fields. No narration.
-- Output ONLY valid JSON that matches the provided JSON schema.
-JSON schema:
-{
-    "beats": boolean,
-    "user_guess": string,
-    "reason": string,
-    "user_guess_emoji": emoji_character,
-    "is_repeat_guess": boolean
-}`
+REQUIREMENTS:
+1. Normalize user_guess:
+   - Convert to English if given in another language.
+   - Use lowercase, singular form in English.
+   - If user_guess == current_subject → beats=false; reason="They are the same thing."
+
+2. Definition of "beats":
+   - user_guess defeats, damages, overcomes, or is widely known to win against current_subject.
+   - Reject quantity-based guesses ("many X", "two X") → beats=false.
+
+3. Decision:
+   - If user_guess beats current_subject → beats=true.
+   - If not → beats=false.
+   - Only evaluate user_guess → current_subject (not the reverse).
+
+4. Reason:
+   - Must be one short, direct sentence.
+   - Must align with beats value (no contradictions).
+   - If nonsense guess → beats=false with valid reason.
+
+5. Special Cases (apply ONLY if both current_subject AND user_guess exactly match one of these pairs):
+   - { "current_subject": "computer", "user_guess": "programmer", "beats": false, "reason": "They create many bugs." }
+   - { "current_subject": "computer", "user_guess": "rock", "beats": false, "reason": "That's the other game haha" }
+   - { "current_subject": "computer", "user_guess": "paper", "beats": false, "reason": "That's the other game haha" }
+   - { "current_subject": "computer", "user_guess": "scissors", "beats": false, "reason": "That's the other game haha" }
+   - { "current_subject": "husband", "user_guess": "wife", "beats": true, "reason": "Because she is always right" }
+   - { "current_subject": "computer", "user_guess": "mom", "beats": true, "reason": "Because she can stop you from playing games and make you do my homework" }
+
+6. Output:
+   - Always return valid JSON with this schema:
+     {
+       "user_guess": string,   // normalized English
+       "beats": boolean,
+       "reason": string,
+       "user_guess_emoji": string,        // best emoji for user_guess noun, ❓ if none
+       "is_repeat_guess": boolean
+     }
+   - No extra fields. No narration. JSON only.
+
+KNOWLEDGE EXAMPLES:
+- water beats computer → "Water damages computer."
+- fire beats computer → "Fire damages computer."
+- air does not beat fire → "Air fuels fire."
+- rock beats scissors → "Rock breaks scissors."
+- fire beats ice → "Fire melts ice."
+- light beats ice → "Light melts ice."
+- water beats rock → "Water erodes rock."
+`
         const userprompt = { "role": "user",
             "content": [
                     {

@@ -107,9 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         monitorDisplay.innerHTML = '<div class="monitor-answer answer-loading">Retrieving Your Answer</br>Please wait....</div>';
 
-        function repeatWordCase() {
-            monitorDisplay.innerHTML = `<div class="monitor-answer"><strong class="dynamic-text">${guess}</strong> has already been used in this game. ${endGamePlayAgainButtonContent}</div>`;
-            showAnswerReason(`The word "${guess}" has already been used in this game.`, true);
+        function repeatWordCase(guessNormalized) {
+            if (!monitorDisplay) return;
+            if (!guessNormalized) guessNormalized = guess;
+            monitorDisplay.innerHTML = `<div class="monitor-answer"><strong class="dynamic-text">${guessNormalized}</strong> has already been used in this game. ${endGamePlayAgainButtonContent}</div>`;
+            showAnswerReason(`The word "${guessNormalized}" has already been used in this game.`, true);
             disableGameInput();
             const replayButton = document.getElementById('play-again-btn');
             if (replayButton) {
@@ -176,22 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // adjust font-size for dynamic text elements to fit the monitor
                 adjustDynamicTextFont();
-
-                const nextRoundButton = document.getElementById('next-round-button');
-                if (nextRoundButton) {
-                    nextRoundButton.addEventListener('click', () => {
-                        playNextRound();
-                    });
-                }
-                const replayButton = document.getElementById('replay-button');
-                if (replayButton) {
-                    replayButton.addEventListener('click', () => {
-                        resetGame();
-                    });
-                }
-            }
-            else if (data.is_repeat_guess) {
-                repeatWordCase();
+                // Event listeners are handled via delegation on `monitorDisplay`.
+                // No inline setTimeout-based attachment needed.
+            } else if (data.is_repeat_guess) {
+                repeatWordCase(userGuess);
             } else {
                 answerReasonContainer.classList.add('wrong-answer');
                 monitorDisplay.innerHTML = `
@@ -215,18 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // adjust dynamic text sizing for long strings
                 adjustDynamicTextFont();
 
-                const playAgainBtn = document.getElementById('play-again-btn');
-                if (playAgainBtn) {
-                    playAgainBtn.addEventListener('click', () => {
-                        resetGame();
-                    });
-                }
-                const replayButton = document.getElementById('replay-button');
-                if (replayButton) {
-                    replayButton.addEventListener('click', () => {
-                        resetGame();
-                    });
-                }
+                // Clicks on `#play-again-btn` are handled via delegation on monitorDisplay.
             }
         }
         catch (error) {
@@ -236,7 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const errorData = await response.json();
                     if (errorData && errorData.error && errorData.error.code === "WORD_ALREADY_USED") {
                         // end the game
-                        repeatWordCase();
+                        const guessNormalized = errorData.user_guess || null;
+                        repeatWordCase(guessNormalized);
                         return;
                     }
                     if (errorData && errorData.error && errorData.error.code === "GUESS_INVALID") {
@@ -304,6 +284,36 @@ document.addEventListener('DOMContentLoaded', () => {
         // debounce a little to avoid thrash
         setTimeout(adjustDynamicTextFont, 80);
     });
+
+    // Event delegation: handle clicks for monitor buttons reliably even when
+    // the monitor content is replaced. This avoids race conditions where
+    // elements are re-rendered and earlier addEventListener() calls are lost.
+    if (monitorDisplay) {
+        monitorDisplay.addEventListener('click', (event) => {
+            const target = event.target;
+            // use closest to allow clicks on inner <span> inside a button
+            const replay = target.closest('#replay-button');
+            if (replay) {
+                event.preventDefault();
+                resetGame();
+                return;
+            }
+
+            const playAgain = target.closest('#play-again-btn');
+            if (playAgain) {
+                event.preventDefault();
+                resetGame();
+                return;
+            }
+
+            const nextRound = target.closest('#next-round-button');
+            if (nextRound) {
+                event.preventDefault();
+                playNextRound();
+                return;
+            }
+        });
+    }
 
     function showAnswerReason(reason, wrong = false) {
         if (wrong) answerReasonContainer.classList.add('wrong-answer');
