@@ -84,8 +84,8 @@ REQUIREMENTS:
    - { "current_subject": "computer", "user_guess": "rock", "beats": false, "reason": "That's the other game haha" }
    - { "current_subject": "computer", "user_guess": "paper", "beats": false, "reason": "That's the other game haha" }
    - { "current_subject": "computer", "user_guess": "scissors", "beats": false, "reason": "That's the other game haha" }
-   - { "current_subject": "husband", "user_guess": "wife", "beats": true, "reason": "Because she is always right" }
-   - { "current_subject": "computer", "user_guess": "mom", "beats": true, "reason": "Because she can stop you from playing games and make you do my homework" }
+   - { "current_subject": "computer", "user_guess": "girlfriend", "beats": true, "reason": "Because she is always right" }
+   - { "current_subject": "computer", "user_guess": "mom", "beats": true, "reason": "Because she can stop you from playing games and make you do your homework" }
 
 6. Output:
    - Always return valid JSON with this schema:
